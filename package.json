@@ -5,6 +5,7 @@
 	},
 	"dependencies": {
 		"@itrocks/class-type": "latest",
+		"@itrocks/former-name": "latest",
 		"@itrocks/length": "latest",
 		"@itrocks/table-schema": "latest",
 		"@itrocks/value": "latest"
@@ -49,5 +50,5 @@
 		"build:esm": "tsc -p tsconfig.esm.json"
 	},
 	"types": "./esm/class-to-table.d.ts",
-	"version": "0.0.1"
+	"version": "0.0.2"
 }
