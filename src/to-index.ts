@@ -1,8 +1,8 @@
 import { Type }             from '@itrocks/class-type'
 import { representativeOf } from '@itrocks/class-view'
 import { toColumn }         from '@itrocks/rename'
-import { Index }            from '@itrocks/table-schema'
-import { IndexKey }         from '@itrocks/table-schema'
+import { Index }            from '@itrocks/schema'
+import { IndexKey }         from '@itrocks/schema'
 
 export class ToIndex
 {

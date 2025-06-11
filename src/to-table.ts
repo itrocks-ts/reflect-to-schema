@@ -1,10 +1,10 @@
 import { Type }     from '@itrocks/class-type'
+import { Table }    from '@itrocks/schema'
 import { storeOf }  from '@itrocks/store'
-import { Table }    from '@itrocks/table-schema'
 import { ToColumn } from './to-column'
 import { ToIndex }  from './to-index'
 
-export class ClassToTable
+export class ToTable
 {
 
 	toColumn = new ToColumn()

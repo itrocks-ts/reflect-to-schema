@@ -4,8 +4,8 @@ import { formerNameOf }       from '@itrocks/former-name'
 import { ReflectClass }       from '@itrocks/reflect'
 import { ReflectProperty }    from '@itrocks/reflect'
 import { toColumn }           from '@itrocks/rename'
-import { Column }             from '@itrocks/table-schema'
-import { Type }               from '@itrocks/table-schema'
+import { Column }             from '@itrocks/schema'
+import { Type }               from '@itrocks/schema'
 import { ToType }             from './to-type'
 
 export class ToColumn

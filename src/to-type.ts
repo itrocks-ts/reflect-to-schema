@@ -5,7 +5,7 @@ import { maxLengthOf }        from '@itrocks/length'
 import { precisionOf }        from '@itrocks/precision'
 import { CollectionType }     from '@itrocks/property-type'
 import { ReflectProperty }    from '@itrocks/reflect'
-import { Type }               from '@itrocks/table-schema'
+import { Type }               from '@itrocks/schema'
 import { maxValueOf }         from '@itrocks/value'
 import { signedOf }           from '@itrocks/value'
 

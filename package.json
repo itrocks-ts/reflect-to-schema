@@ -5,12 +5,18 @@
 	},
 	"dependencies": {
 		"@itrocks/class-type": "latest",
+		"@itrocks/class-view": "latest",
 		"@itrocks/former-name": "latest",
 		"@itrocks/length": "latest",
-		"@itrocks/table-schema": "latest",
+		"@itrocks/precision": "latest",
+		"@itrocks/property-type": "latest",
+		"@itrocks/reflect": "latest",
+		"@itrocks/rename": "latest",
+		"@itrocks/schema": "latest",
+		"@itrocks/store": "latest",
 		"@itrocks/value": "latest"
 	},
-	"description": "Converts a TypeScript class structure into a table schema",
+	"description": "Converts a TypeScript class and columns structure into a RDB schema",
 	"devDependencies": {
 		"typescript": "~5.8"
 	},
@@ -18,8 +24,8 @@
 		"node": ">=18"
 	},
 	"exports": {
-		"import": "./esm/class-to-table.js",
-		"require": "./cjs/class-to-table.js"
+		"import": "./esm/reflect-to-schema.js",
+		"require": "./cjs/reflect-to-schema.js"
 	},
 	"files": [
 		"LICENSE",
@@ -39,16 +45,16 @@
 		"table"
 	],
 	"license": "LGPL-3.0-or-later",
-	"name": "@itrocks/class-to-table",
+	"name": "@itrocks/reflect-to-schema",
 	"repository": {
 		"type": "git",
-		"url": "git+https://github.com/itrocks-ts/class-to-table.git"
+		"url": "git+https://github.com/itrocks-ts/reflect-to-schema.git"
 	},
 	"scripts": {
 		"build": "npm run build:cjs && npm run build:esm",
 		"build:cjs": "tsc -p tsconfig.cjs.json",
 		"build:esm": "tsc -p tsconfig.esm.json"
 	},
-	"types": "./esm/class-to-table.d.ts",
-	"version": "0.0.2"
+	"types": "./esm/reflect-to-schema.d.ts",
+	"version": "0.0.3"
 }
