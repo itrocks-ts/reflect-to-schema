@@ -36,7 +36,7 @@ export class ToType
 		if (propertyType === Number) {
 			const precision = precisionOf(target, propertyName)
 			if (precision.maximum) {
-				return new Type('float', {
+				return new Type('decimal', {
 					length:    this.length(target, propertyName, true),
 					precision: precision.maximum,
 					signed:    signedOf(target, propertyName)
