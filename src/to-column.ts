@@ -1,6 +1,6 @@
-import { isAnyType }          from '@itrocks/class-type'
 import { Type as TargetType } from '@itrocks/class-type'
 import { formerNameOf }       from '@itrocks/former-name'
+import { TypeType }           from '@itrocks/property-type'
 import { ReflectClass }       from '@itrocks/reflect'
 import { ReflectProperty }    from '@itrocks/reflect'
 import { toColumn }           from '@itrocks/rename'
@@ -25,14 +25,17 @@ export class ToColumn
 
 	convertProperty<T extends object>(property: ReflectProperty<T>): Column | undefined
 	{
-		const type = this.toType.convert<T>(property)
+		let columnName = toColumn(property.name)
+		let type       = this.toType.convert<T>(property)
+		if ((property.type instanceof TypeType) && !type) {
+			columnName += '_id'
+			type        = new Type('integer', { signed: false, zeroFill: false })
+		}
 		return type
-			? new Column(toColumn(property.name), type, {
+			? new Column(columnName, type, {
 				default:     property.defaultValue,
 				formerNames: formerNameOf(property.class.type, property.name)
 			})
-			: isAnyType(property.type)
-			? new Column(toColumn(property.name) + '_id', new Type('integer', { signed: false, zeroFill: false }))
 			: undefined
 	}
 

@@ -15,25 +15,26 @@ export class ToType
 	convert<T extends object>(property: ReflectProperty<T>)
 	{
 		const propertyType = property.type
-		if (!propertyType) {
+		const type         = propertyType?.type
+		if (!type) {
 			throw 'Missing property type ' + property.name
 		}
 		const propertyName = property.name
 		const target       = property.class.type
 		if (propertyType instanceof CollectionType) {
-			if (propertyType.elementType === String) {
+			if (propertyType.elementType.type === String) {
 				return new Type('set', {
 					collate: 'utf8mb4_0900_ai_ci'
 				})
 			}
 		}
-		if (propertyType === Boolean) {
+		if (type === Boolean) {
 			return new Type('boolean')
 		}
-		if (propertyType === Date) {
+		if (type === Date) {
 			return new Type('datetime')
 		}
-		if (propertyType === Number) {
+		if (type === Number) {
 			const precision = precisionOf(target, propertyName)
 			if (precision.maximum) {
 				return new Type('decimal', {
@@ -49,7 +50,7 @@ export class ToType
 				})
 			}
 		}
-		if (propertyType === String) {
+		if (type === String) {
 			return new Type('string', {
 				collate: 'utf8mb4_0900_ai_ci',
 				length:  this.length(target, propertyName)
