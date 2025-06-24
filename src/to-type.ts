@@ -4,6 +4,7 @@ import { lengthOf }           from '@itrocks/length'
 import { maxLengthOf }        from '@itrocks/length'
 import { precisionOf }        from '@itrocks/precision'
 import { CollectionType }     from '@itrocks/property-type'
+import { rangeOf }            from '@itrocks/range'
 import { ReflectProperty }    from '@itrocks/reflect'
 import { Type }               from '@itrocks/schema'
 import { maxValueOf }         from '@itrocks/value'
@@ -28,48 +29,55 @@ export class ToType
 				})
 			}
 		}
+		if (type === BigInt) {
+			const length = this.length(target, propertyName, true)
+			return Type.integer(
+				maxValueOf(target, propertyName) as bigint
+					?? rangeOf(target, propertyName)?.maxValue
+					?? (length ? ((10n ** BigInt(length)) - 1n) : undefined),
+				signedOf(target, propertyName),
+				{ length: length }
+			)
+		}
 		if (type === Boolean) {
 			return new Type('boolean')
 		}
 		if (type === Date) {
-			return new Type('datetime')
+			return Type.date({ length: 10 })
 		}
 		if (type === Number) {
 			const precision = precisionOf(target, propertyName)
 			if (precision.maximum) {
-				return new Type('decimal', {
-					length:    this.length(target, propertyName, true),
-					precision: precision.maximum,
-					signed:    signedOf(target, propertyName)
-				})
+				return Type.decimal(
+					this.length(target, propertyName, true) ?? 65,
+					precision.maximum,
+					signedOf(target, propertyName)
+				)
 			}
 			else {
-				return new Type('integer', {
-					length: this.length(target, propertyName, true),
-					signed: signedOf(target, propertyName)
-				})
+				const length = this.length(target, propertyName, true)
+				return Type.integer(
+					maxValueOf(target, propertyName) as number
+						?? rangeOf(target, propertyName)?.maxValue
+						?? (length ? ((10 ** length) - 1) : undefined)
+						?? Number.MAX_SAFE_INTEGER,
+					signedOf(target, propertyName),
+					{ length: length ?? Number.MAX_SAFE_INTEGER.toString().length }
+				)
 			}
 		}
 		if (type === String) {
-			return new Type('string', {
-				collate: 'utf8mb4_0900_ai_ci',
-				length:  this.length(target, propertyName)
-			})
+			const length = this.length(target, propertyName, false) ?? 255
+			return Type.string(length, ((length > 3) && (length < 256)) ? true : false, 'utf8mb4_0900_ai_ci')
 		}
 	}
 
-	length<T extends object>(target: TargetType<T>, propertyName: KeyOf<T>, maxValue?: true)
+	length<T extends object>(target: TargetType<T>, propertyName: KeyOf<T>, maxValue: boolean)
 	{
-		return lengthOf(target, propertyName)
+		return (maxValue ? maxValueOf(target, propertyName)?.toString().length : undefined)
+			?? (maxValue ? rangeOf(target, propertyName)?.maxValue.toString().length : undefined)
+			?? lengthOf(target, propertyName)
 			?? maxLengthOf(target, propertyName)
-			?? (maxValue && maxValueOf(target, propertyName)?.toString().length)
-	}
-
-	maxValueOf<T extends object>(target: TargetType<T>, propertyName: KeyOf<T>)
-	{
-		const maxValue = maxValueOf(target, propertyName)
-		if (maxValue === undefined) return maxValue
-		return ((typeof maxValue === 'number') ? Math.floor(maxValue) : maxValue).toString().length
 	}
 
 }

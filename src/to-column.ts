@@ -33,7 +33,8 @@ export class ToColumn
 		}
 		return type
 			? new Column(columnName, type, {
-				default:     property.defaultValue,
+				canBeNull:   property.type.optional,
+				default:     property.defaultValue ?? (property.type.optional ? null : undefined),
 				formerNames: formerNameOf(property.class.type, property.name)
 			})
 			: undefined

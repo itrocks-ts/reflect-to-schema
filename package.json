@@ -10,6 +10,7 @@
 		"@itrocks/length": "latest",
 		"@itrocks/precision": "latest",
 		"@itrocks/property-type": "latest",
+		"@itrocks/range": "latest",
 		"@itrocks/reflect": "latest",
 		"@itrocks/rename": "latest",
 		"@itrocks/schema": "latest",
@@ -56,5 +57,5 @@
 		"build:esm": "tsc -p tsconfig.esm.json"
 	},
 	"types": "./esm/reflect-to-schema.d.ts",
-	"version": "0.0.5"
+	"version": "0.0.6"
 }
