@@ -14,7 +14,7 @@ export class ToColumn
 
 	convertMultiple<T extends object = object>(type: TargetType<T>): Column[]
 	{
-		const columns = [new Column('id', new Type('integer', { signed: false, zeroFill: false }), { autoIncrement: true })]
+		const columns = [new Column('id', this.idType(), { autoIncrement: true })]
 		for (const property of new ReflectClass(type).properties) {
 			const column = this.convertProperty(property)
 			if (!column) continue
@@ -29,7 +29,7 @@ export class ToColumn
 		let type       = this.toType.convert<T>(property)
 		if ((property.type instanceof TypeType) && !type) {
 			columnName += '_id'
-			type        = new Type('integer', { signed: false, zeroFill: false })
+			type        = this.idType()
 		}
 		return type
 			? new Column(columnName, type, {
@@ -38,6 +38,11 @@ export class ToColumn
 				formerNames: formerNameOf(property.class.type, property.name)
 			})
 			: undefined
+	}
+
+	idType()
+	{
+		return new Type('integer', { maxValue: 2e9, signed: false, zeroFill: false })
 	}
 
 }
