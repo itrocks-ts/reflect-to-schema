@@ -16,19 +16,21 @@ export class ToIndex
 		)
 	}
 
-	convertRepresentative(type: Type): Index
+	convertRepresentative(type: Type): Index | undefined
 	{
 		const index = new Index('representative')
 		const representative: string[] = representativeOf(type)
 		for (const propertyName of representative) {
 			index.keys.push(new IndexKey(toColumn(propertyName)))
 		}
-		return index
+		return index.keys.length ? index : undefined
 	}
 
 	convertMultiple(type: Type): Index[]
 	{
-		return [this.convertId(), this.convertRepresentative(type)]
+		const id             = this.convertId()
+		const representative = this.convertRepresentative(type)
+		return representative ? [id, representative] : [id]
 	}
 
 }
