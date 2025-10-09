@@ -35,7 +35,7 @@ export class ToColumn
 			? new Column(columnName, type, {
 				canBeNull:   property.type.optional,
 				default:     property.defaultValue ?? (property.type.optional ? null : undefined),
-				formerNames: formerNameOf(property.class.type, property.name)
+				formerNames: formerNameOf(property.class.type, property.name).map(propertyName => toColumn(propertyName))
 			})
 			: undefined
 	}

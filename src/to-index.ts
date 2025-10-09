@@ -10,7 +10,7 @@ export class ToIndex
 	convertId(): Index
 	{
 		return new Index(
-			'id',
+			'PRIMARY',
 			[new IndexKey('id')],
 			{ type: 'primary', unique: true }
 		)
