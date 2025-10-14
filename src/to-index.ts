@@ -1,11 +1,14 @@
 import { Type }             from '@itrocks/class-type'
 import { representativeOf } from '@itrocks/class-view'
+import { ReflectClass }     from '@itrocks/reflect'
 import { toColumn }         from '@itrocks/rename'
 import { Index }            from '@itrocks/schema'
 import { IndexKey }         from '@itrocks/schema'
+import { ToType }           from './to-type'
 
 export class ToIndex
 {
+	toType = new ToType()
 
 	convertId(): Index
 	{
@@ -18,10 +21,14 @@ export class ToIndex
 
 	convertRepresentative(type: Type): Index | undefined
 	{
-		const index = new Index('representative')
-		const representative: string[] = representativeOf(type)
+		const index          = new Index('representative')
+		const properties     = new ReflectClass(type).properties
+		const representative = representativeOf(type)
 		for (const propertyName of representative) {
-			index.keys.push(new IndexKey(toColumn(propertyName)))
+			const property   = properties[propertyName]
+			const columnName = toColumn(propertyName)
+				+ (this.toType.isId(property) ? '_id' : '')
+			index.keys.push(new IndexKey(columnName))
 		}
 		return index.keys.length ? index : undefined
 	}

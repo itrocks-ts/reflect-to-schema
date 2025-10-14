@@ -27,7 +27,7 @@ export class ToColumn
 	{
 		let columnName = toColumn(property.name)
 		let type       = this.toType.convert<T>(property)
-		if ((property.type instanceof TypeType) && !type) {
+		if (this.toType.isId(property, type)) {
 			columnName += '_id'
 			type        = this.idType()
 		}

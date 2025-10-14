@@ -4,6 +4,7 @@ import { lengthOf }           from '@itrocks/length'
 import { maxLengthOf }        from '@itrocks/length'
 import { precisionOf }        from '@itrocks/precision'
 import { CollectionType }     from '@itrocks/property-type'
+import { TypeType }           from '@itrocks/property-type'
 import { rangeOf }            from '@itrocks/range'
 import { ReflectProperty }    from '@itrocks/reflect'
 import { Type }               from '@itrocks/schema'
@@ -70,6 +71,11 @@ export class ToType
 			const length = this.length(target, propertyName, false) ?? 255
 			return Type.string(length, ((length > 3) && (length < 256)) ? true : false, 'utf8mb4_0900_ai_ci')
 		}
+	}
+
+	isId<T extends object>(property: ReflectProperty<T>, type?: Type)
+	{
+		return (property.type instanceof TypeType) && !(type ?? this.convert(property))
 	}
 
 	length<T extends object>(target: TargetType<T>, propertyName: KeyOf<T>, maxValue: boolean)
