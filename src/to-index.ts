@@ -14,9 +14,21 @@ export class ToIndex
 	{
 		return new Index(
 			'PRIMARY',
-			[new IndexKey('id')],
+			new IndexKey('id'),
 			{ type: 'primary', unique: true }
 		)
+	}
+
+	convertIds(type: Type): Index[]
+	{
+		const indexes = new Array<Index>
+		for (const property of new ReflectClass(type).properties) {
+			if (this.toType.isId(property)) {
+				const columnName = toColumn(property.name) + (this.toType.isId(property) ? '_id' : '_')
+				indexes.push(new Index(columnName, new IndexKey(columnName)))
+			}
+		}
+		return indexes
 	}
 
 	convertRepresentative(type: Type): Index | undefined
@@ -35,9 +47,11 @@ export class ToIndex
 
 	convertMultiple(type: Type): Index[]
 	{
-		const id             = this.convertId()
+		const indexes        = [this.convertId()]
 		const representative = this.convertRepresentative(type)
-		return representative ? [id, representative] : [id]
+		if (representative) indexes.push(representative)
+		indexes.push(...this.convertIds(type))
+		return indexes
 	}
 
 }

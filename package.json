@@ -57,5 +57,5 @@
 		"build:esm": "tsc -p tsconfig.esm.json"
 	},
 	"types": "./esm/reflect-to-schema.d.ts",
-	"version": "0.0.10"
+	"version": "0.0.11"
 }
