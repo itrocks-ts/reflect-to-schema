@@ -19,7 +19,7 @@
 	},
 	"description": "Converts a TypeScript class and columns structure into a RDB schema",
 	"devDependencies": {
-		"typescript": "~5.8"
+		"typescript": "~5.9"
 	},
 	"engines": {
 		"node": ">=18"
@@ -57,5 +57,5 @@
 		"build:esm": "tsc -p tsconfig.esm.json"
 	},
 	"types": "./esm/reflect-to-schema.d.ts",
-	"version": "0.0.11"
+	"version": "0.0.12"
 }
