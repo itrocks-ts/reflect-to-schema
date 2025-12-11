@@ -37,13 +37,18 @@
 	"homepage": "https://it.rocks",
 	"keywords": [
 		"backend",
-		"it.rocks",
+		"database",
 		"class",
+		"it.rocks",
+		"orm",
 		"reflect",
 		"reflection",
+		"relational",
+		"rdbms",
 		"schema",
 		"structure",
-		"table"
+		"table",
+		"typescript"
 	],
 	"license": "LGPL-3.0-or-later",
 	"name": "@itrocks/reflect-to-schema",
@@ -57,5 +62,5 @@
 		"build:esm": "tsc -p tsconfig.esm.json"
 	},
 	"types": "./esm/reflect-to-schema.d.ts",
-	"version": "0.0.12"
+	"version": "0.0.13"
 }
