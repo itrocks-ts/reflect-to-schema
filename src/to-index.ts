@@ -6,7 +6,7 @@ import { Index }            from '@itrocks/schema'
 import { IndexKey }         from '@itrocks/schema'
 import { ToType }           from './to-type'
 
-export class ToIndex
+export class ToIndex<T extends object>
 {
 	toType = new ToType()
 
@@ -19,7 +19,7 @@ export class ToIndex
 		)
 	}
 
-	convertIds(type: Type): Index[]
+	convertIds(type: Type<T>): Index[]
 	{
 		const indexes = new Array<Index>
 		for (const property of new ReflectClass(type).properties) {
@@ -31,10 +31,10 @@ export class ToIndex
 		return indexes
 	}
 
-	convertRepresentative(type: Type): Index | undefined
+	convertRepresentative(type: Type<T>): Index | undefined
 	{
 		const index          = new Index('representative')
-		const properties     = new ReflectClass(type).properties
+		const properties     = new ReflectClass(type).property
 		const representative = representativeOf(type)
 		for (const propertyName of representative) {
 			const property   = properties[propertyName]
@@ -45,7 +45,7 @@ export class ToIndex
 		return index.keys.length ? index : undefined
 	}
 
-	convertMultiple(type: Type): Index[]
+	convertMultiple(type: Type<T>): Index[]
 	{
 		const indexes        = [this.convertId()]
 		const representative = this.convertRepresentative(type)
