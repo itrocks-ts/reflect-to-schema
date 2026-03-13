@@ -1,4 +1,3 @@
-import { KeyOf }              from '@itrocks/class-type'
 import { Type as TargetType } from '@itrocks/class-type'
 import { lengthOf }           from '@itrocks/length'
 import { maxLengthOf }        from '@itrocks/length'
@@ -19,7 +18,7 @@ export class ToType
 		const propertyType = property.type
 		const type         = propertyType?.type
 		if (!type) {
-			throw 'Missing property type ' + property.name
+			throw 'Missing property type ' + property.name.toString()
 		}
 		const propertyName = property.name
 		const target       = property.class.type
@@ -78,7 +77,7 @@ export class ToType
 		return (property.type instanceof TypeType) && !(type ?? this.convert(property))
 	}
 
-	length<T extends object>(target: TargetType<T>, propertyName: KeyOf<T>, maxValue: boolean)
+	length<T extends object>(target: TargetType<T>, propertyName: keyof T, maxValue: boolean)
 	{
 		return (maxValue ? maxValueOf(target, propertyName)?.toString().length : undefined)
 			?? (maxValue ? rangeOf(target, propertyName)?.maxValue.toString().length : undefined)

@@ -1,6 +1,5 @@
 import { Type as TargetType } from '@itrocks/class-type'
 import { formerNameOf }       from '@itrocks/former-name'
-import { TypeType }           from '@itrocks/property-type'
 import { ReflectClass }       from '@itrocks/reflect'
 import { ReflectProperty }    from '@itrocks/reflect'
 import { toColumn }           from '@itrocks/rename'
