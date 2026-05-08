@@ -19,20 +19,17 @@
 	},
 	"description": "Converts a TypeScript class and columns structure into a RDB schema",
 	"devDependencies": {
-		"typescript": "~5.9"
+		"typescript": "^6.0"
 	},
 	"engines": {
-		"node": ">=18"
+		"node": ">=24"
 	},
-	"exports": {
-		"import": "./esm/reflect-to-schema.js",
-		"require": "./cjs/reflect-to-schema.js"
-	},
+	"exports": "./cjs/reflect-to-schema.js",
 	"files": [
 		"LICENSE",
 		"README.md",
-		"*/*.d.ts",
-		"*/*.js"
+		"cjs",
+		"!*.map"
 	],
 	"homepage": "https://it.rocks",
 	"keywords": [
@@ -57,10 +54,7 @@
 		"url": "git+https://github.com/itrocks-ts/reflect-to-schema.git"
 	},
 	"scripts": {
-		"build": "npm run build:cjs && npm run build:esm",
-		"build:cjs": "tsc -p tsconfig.cjs.json",
-		"build:esm": "tsc -p tsconfig.esm.json"
+		"build": "tsc"
 	},
-	"types": "./esm/reflect-to-schema.d.ts",
-	"version": "0.2.1"
+	"version": "0.2.2"
 }
