@@ -27,7 +27,7 @@ npm i @itrocks/reflect-to-schema
 The package relies on the metadata provided by other `@itrocks/*`
 packages (`@itrocks/reflect`, `@itrocks/property-type`,
 `@itrocks/store`, `@itrocks/length`, `@itrocks/precision`,
-`@itrocks/range`, `@itrocks/value`, etc.). You typically do not use it
+`@itrocks/range`, `@itrocks/unique`, `@itrocks/value`, etc.). You typically do not use it
 in isolation, but as part of a model layer where classes are already
 decorated and registered.
 
@@ -57,7 +57,42 @@ using the reflection metadata and generates:
 - one column for each reflected property (`email` in the example),
   with type and nullability inferred from the property metadata
 - primary and secondary indexes, including representative indexes if
-  defined by `@itrocks/class-view`
+  defined by `@itrocks/class-view`, and unique indexes declared with
+  `@itrocks/unique`'s `@Unique()`
+
+### Unique indexes
+
+`ReflectToTable` converts `@Unique()` property metadata into neutral
+`Index` objects with `type: 'unique'` and `unique: true`.
+
+```ts
+import { Store }  from '@itrocks/store'
+import { Unique } from '@itrocks/unique'
+
+@Store('membership')
+class Membership
+{
+  @Unique('identity')
+  organization!: Organization
+
+  @Unique('identity')
+  user!: User
+
+  @Unique()
+  reference = ''
+}
+```
+
+- An unnamed unique index takes the SQL column name, so `reference` becomes
+  `reference` and a stored-object property such as `organization` becomes
+  `organization_id`.
+- Properties sharing an explicit name form one composite index in deterministic
+  reflected-property order.
+- When a unique index has the same name and ordered columns as a generated
+  secondary index, such as a relation index, it replaces that index.
+- `PRIMARY` and `representative` are reserved. A unique index colliding with
+  either name, or with a generated index whose ordered columns differ, is
+  rejected before SQL generation.
 
 ### Complete example: model-to-database synchronization
 
@@ -188,8 +223,8 @@ function tableOf<T extends object>(type: ObjectOrType<T>) {
     an auto-increment `id` column and additional columns inferred from
     metadata (type, optionality, former names, value ranges, lengths,
     etc.)
-  - `indexes` – indexes for primary key, representative properties, and
-    `id`-like relations
+  - `indexes` – indexes for primary key, representative properties,
+    `id`-like relations, and `@Unique()` declarations
 
 ###### Errors
 

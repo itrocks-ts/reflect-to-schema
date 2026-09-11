@@ -15,10 +15,12 @@
 		"@itrocks/rename": "latest",
 		"@itrocks/schema": "latest",
 		"@itrocks/store": "latest",
+		"@itrocks/unique": "latest",
 		"@itrocks/value": "latest"
 	},
 	"description": "Converts a TypeScript class and columns structure into a RDB schema",
 	"devDependencies": {
+		"@itrocks/class-file": "latest",
 		"typescript": "^7.0"
 	},
 	"engines": {
@@ -34,14 +36,14 @@
 	"homepage": "https://it.rocks",
 	"keywords": [
 		"backend",
-		"database",
 		"class",
+		"database",
 		"it.rocks",
 		"orm",
+		"rdbms",
 		"reflect",
 		"reflection",
 		"relational",
-		"rdbms",
 		"schema",
 		"structure",
 		"table",
@@ -54,7 +56,8 @@
 		"url": "git+https://github.com/itrocks-ts/reflect-to-schema.git"
 	},
 	"scripts": {
-		"build": "tsc"
+		"build": "tsc",
+		"test": "npm run build && node --test \"test/**/*.test.mjs\""
 	},
-	"version": "0.2.3"
+	"version": "0.3.0"
 }
